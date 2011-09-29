@@ -1,0 +1,176 @@
+<html>
+<head>
+	<title>Splash Page</title>
+	<link rel="stylesheet" type="text/css" href="splash.css" />
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>  
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script> 
+	<script type="text/javascript" src="http://img-rotate-extension.googlecode.com/svn-history/r2/trunk/jquery-rotate-min.2.1.js"></script>
+	
+<script type="text/javascript">
+
+	$(document).ready(function(){
+		$("#diag").rotate(45);
+	
+        $('#subscribeForm').submit( function() {
+                $.post( '/subscribe/ajax/',
+                    {'email':$('#email').val()},
+                    function(data) {
+			        $('#slide').fadeOut( function() {
+                            if (data.success == 'OK') {
+                            $('.message').html("Thanks!").addClass('success').removeClass('error');
+                            } else {
+                            $('.message').html("Please enter a valid email address").addClass('error').removeClass('success');
+                            }
+                            $('#email').val('your email').css('color', '#CCC');
+                            $(this).fadeIn();                
+                            });
+                    },
+                    'json'
+                    );
+ 
+                return false;
+ 
+               
+
+        $('#email').focus(function(){if($(this).val()=='your email'){$(this).css('color','#000').val('');}});
+        $('#email').blur(function(){if($(this).val()==''){$(this).css('color','#CCC').val('your email');}});
+ 
+    });
+
+    });      
+
+
+
+function signUpForm() {
+	
+	$(".message")
+  			.fadeTo("fast", 1);  	
+
+}
+
+function doorClose() {
+  		$("#topDoor")
+  			.animate({
+	  			"margin-top": "+=600px"},
+	  			{duration: 250})
+  			.effect("bounce", { direction:"up", distance:"10", times:1 }, 300);
+  		$("#bottomDoor")
+  			.animate({
+	  			"margin-top": "-=600px"},
+	  			{duration: 250,complete: function(){
+	  				setTimeout('signUpForm()', 550);},	  			
+	  			})
+	  		.effect("bounce", { direction:"down", distance:"10", times:1 }, 300);
+
+
+
+
+}
+
+function shakeDoors() {
+   		$("#rightDiag")			
+			.animate({
+	  			"margin-top": "-=50px"},
+	  			{duration: 2000})
+			.animate({
+	  			"margin-top": "+=50px"},
+	  			{duration: 250});
+	  			
+  		$("#leftDiag")
+  			.animate({
+	  			"margin-top": "+=50px"},
+	  			{duration: 2000})
+			.animate({
+	  			"margin-top": "-=50px"},
+	  			{duration: 250});
+	  				  			  			  	  			
+	  	$("#flare")
+	  		.fadeTo(2000, 1)
+	  		.fadeTo(150, 0)	  	
+	  		.fadeTo(50, 0.0, 
+	  		function() {	  		
+	  			doorClose();	  		
+	  					});		  		
+
+}
+
+function door() {
+
+	$("#topDoor")
+  			.animate({
+	  			"margin-top": "-=600px"},
+	  			{duration: 3000});	  			
+	$("#bottomDoor")
+			.animate({
+	  			"margin-top": "+=600px"},
+	  			{duration: 3000});
+   		
+   		
+   		setTimeout(function(){  
+				shakeDoors();
+	  	}, 1500);
+
+}
+
+
+function slide() {
+
+	$("#button").one('mouseenter', door );
+
+}
+
+
+$(document).ready( slide );
+
+
+</script>
+
+</head>
+
+<body>
+	<div id="container">
+		<div id="burstBg">
+			<img src="bursting-background-behind-doors_02.jpg" alt="bursting-background-behind-doors_02" width="1200" height="1151" />
+		</div>
+		<div id="diag">
+			<div id="rightDiag">
+				<img src="diagonal-doors-top-and-bottom_02.jpg" alt="diagonal-doors-top-and-bottom_02" width="1200" height="551" />
+			</div>
+			<div id="leftDiag">
+				<img src="diagonal-doors-top-and-bottom_02.jpg" alt="diagonal-doors-top-and-bottom_02" width="1200" height="551" />
+			</div>
+		</div>
+	
+		<div id="button">
+		</div>
+		
+		<div id="topDoor">
+			<img src="vertical_doors_1_top.jpg" alt="vertical_doors_1_top">
+		</div>
+		<div id="bottomDoor">
+			<img src="vertical_doors_1_bottom.jpg" alt="vertical_doors_1_bottom">
+		</div>
+		<div id="flare">
+			<img src="flare_02.png" alt="flare_02" width="1100" height="1100">
+		</div>
+		<div id="spotlight">
+			<img src="spotlight-effect-top-shadow.png" alt="spotlight-effect-top-shadow" width="1300" height="1300" />
+		</div>
+
+		<form class="message" id="subscribeForm" method="POST" action="/subscribe/">
+			<h1>coming soon...</h1>
+			<input class="form" id="email" type="email" size="30" style="margin-right: 10px; margin-bottom: 10px;" name="email" maxlength="75" value="your email" size="35">
+			<input type="submit" value="sign-up" style="font-style: tahoma;">
+			<br>sign-up to be notified when we launch
+			<br>.edu emails get priority access
+		</form>
+
+
+
+
+
+	</div>
+
+</body>
+
+</html> 
